@@ -1,0 +1,64 @@
+User table
+-------------
+create table school_user_login
+(
+user_name varchar2(40),
+password varchar2(20),
+user_type varchar2(10),
+constraint log_id_pk primary key(user_name),
+constraint log_chk check (user_type in ('student', 'teacher','parent','admin'))
+)
+
+insert into school_user_login values ('A-2010-001','1234','admin');
+insert into school_user_login values ('T-2010-001','1234','teacher');
+insert into school_user_login values ('P-2010-001','1234','parent');
+insert into school_user_login values ('S-2010-001','1234','student');
+
+select * from school_user_login
+
+
+create table teacher_info
+(
+user_name varchar2(40),
+full_name varchar2(30),
+address varchar2(10),
+phone number(20),
+email varchar2(10),
+photo number(4),
+constraint teacher_name_pk primary key(user_name)
+)
+
+-----------------------------------------------
+|  notice table with auto increment trigger   |
+-----------------------------------------------
+create table notice
+(
+notice_id number(5),
+notice_name varchar2(40),
+detalis varchar2(30),
+notice_type varchar2(10),
+constraint noti_id_pk primary key(notice_id),
+constraint note_type_chk check (notice_type in ('Picnic', 'Impornant Date','School Off','New Rule','volunteer', 'Sports','File','Else')
+)
+
+create sequence notice_id_seq;
+
+create or replace trigger notice_id_incre
+before insert on notice
+for each row
+begin
+select notice_id_seq.nextval
+into :new.notice_id
+from dual;
+end;
+
+
+insert into notice values (null,'PicNic Time','Your Picnic Date is fixed.Class 9 & 10 only go to the picnic. The date is 10/8/2016. For details contact the booth.','Picnic');
+insert into notice values (null,'Important Date','Your Picnic Date is fixed. The date is 10/8/2016.','Else');
+insert into notice values (null,'School Off','Your Picnic Date is 10/8/2016. For this the school is off.','Else');
+insert into notice values (null,'New Rule','New teacher rule is create. For details check our mail.','New Rule');
+insert into notice values (null,'volunteer Wanted','For the picnic some volunteer wanted. For details contact the booth.  ','volunteer');
+insert into notice values (null,'Sports Date','Due to picnic Sports date is changed. New sports date is announced later.  ','Sports');
+insert into notice values (null,'File Download','Your assignment home page and leave application from is Now here.','File');
+
+
